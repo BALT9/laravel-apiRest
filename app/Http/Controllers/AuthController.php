@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 use App\Models\Estudiante;
@@ -41,7 +42,7 @@ class AuthController extends Controller
         return response()->json(["mensaje" => "usuario registrado"], 201);
     }
 
-    public function login(Request $request){
+    public function login(Request $request) {
         $validator = Validator::make($request->all(), [
             "correo" => "required|email",
             "contrasena" => "required"
@@ -55,17 +56,13 @@ class AuthController extends Controller
             ], 400);
         }
     
-        // Laravel espera 'password', no 'contrasena'
-        $credenciales = [
-            'correo' => $request->correo,
-            'password' => $request->contrasena
-        ];
+        $user = Estudiante::where('correo', $request->correo)->first();
     
-        if (!Auth::attempt($credenciales)) {
+        if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
             return response()->json(["mensaje" => "Credenciales incorrectas"], 401);
         }
     
-        $user = Auth::user();
+        Auth::login($user);
     
         return response()->json([
             "mensaje" => "Inicio de sesión exitoso",

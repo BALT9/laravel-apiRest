@@ -2,20 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Estudiante extends Model
+class Estudiante extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
     protected $table = 'Estudiante';
 
-    protected $filatable = [
+    protected $fillable = [
         'nombre',
         'correo',
         'contrasena',
         'numero',
         'pais'
     ];
+
+    // Indica que el campo de contraseña es 'contrasena' y no 'password'
+    public function getAuthPassword()
+    {
+        return $this->contrasena;
+    }
 }
