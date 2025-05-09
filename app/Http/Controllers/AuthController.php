@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
@@ -10,7 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         // Validación de los datos
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
@@ -39,15 +41,23 @@ class AuthController extends Controller
 
         $estudiante->save();
 
-        return response()->json(["mensaje" => "usuario registrado"], 201);
+        // Generar token
+        $token = $estudiante->createToken('Token_Estudiante')->plainTextToken;
+
+        return response()->json([
+            "mensaje" => "Usuario registrado",
+            "access_token" => $token,
+            "usuario" => $estudiante
+        ], 201);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             "correo" => "required|email",
             "contrasena" => "required"
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json([
                 'mensaje' => 'Error en la validación de datos',
@@ -55,27 +65,49 @@ class AuthController extends Controller
                 'estado' => 400
             ], 400);
         }
-    
+
+        // Verificar si el usuario existe
         $user = Estudiante::where('correo', $request->correo)->first();
-    
+
         if (!$user || !Hash::check($request->contrasena, $user->contrasena)) {
             return response()->json(["mensaje" => "Credenciales incorrectas"], 401);
         }
-    
-        Auth::login($user);
-    
+
+        // Crear el token para el usuario autenticado
+        $token = $user->createToken('Token Auth')->plainTextToken;
+
+        // Retornar el token junto con los datos del usuario
         return response()->json([
             "mensaje" => "Inicio de sesión exitoso",
+            "access_token" => $token,
             "usuario" => $user
         ], 200);
     }
-    
 
-    public function profile(){
-        return response()->json(["mensaje" => "soy controllador"], 201);
+
+
+    // Método para obtener el perfil del usuario autenticado
+    public function profile(Request $request)
+    {
+        // Obtener el usuario autenticado
+        $user = $request->user();  // También puedes usar auth()->user()
+
+        // Retornar el perfil del usuario en la respuesta
+        return response()->json([
+            "mensaje" => "Perfil del usuario",
+            "usuario" => $user
+        ], 200);
     }
 
-    public function logout(){
-        
+    // Método para cerrar sesión (logout)
+    public function logout(Request $request)
+    {
+        // Eliminar todos los tokens del usuario
+        $request->user()->tokens()->delete();
+
+        // Retornar mensaje de éxito
+        return response()->json([
+            "mensaje" => "Sesión cerrada con éxito"
+        ], 200);
     }
 }
