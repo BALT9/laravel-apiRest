@@ -110,4 +110,21 @@ class AuthController extends Controller
             "mensaje" => "Sesión cerrada con éxito"
         ], 200);
     }
+
+    public function perfil(Request $request)
+{
+    // Simula la respuesta con datos del perfil
+    $user = [
+        "nombre" => "John Doe",
+        "correo" => "john.doe@example.com",
+        "pais" => "México"
+    ];
+
+    // Retorna una respuesta con el "perfil" simulado
+    return response()->json([
+        "mensaje" => "Perfil del usuario",
+        "usuario" => $user
+    ], 200);
+}
+
 }
