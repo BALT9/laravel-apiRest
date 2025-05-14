@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { perfil } from '../api/auth';
 
-const Profile = () => {
+const Prueba = () => {
     const [userProfile, setUserProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -33,4 +33,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default Prueba;
