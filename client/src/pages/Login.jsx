@@ -1,15 +1,23 @@
-import { useForm} from "react-hook-form"
-import { loginRequest } from "../api/auth";
+import {useForm} from "react-hook-form"
+import { useAuth } from "../../context/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login(){
 
     const {register, handleSubmit} = useForm();
 
-    const onSubmit = handleSubmit( async(data) => {
-        console.log(data);
-        const res = await loginRequest(data);
-        console.log(res);
-        
+    const {signin,isAutenticated} = useAuth();
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        if(isAutenticated) navigate("/profile");
+    },[isAutenticated])
+
+    const onSubmit = handleSubmit((data) => {
+        console.log("react hok form: ",data);
+        signin(data);
     });
 
     return(
