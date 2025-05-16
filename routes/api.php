@@ -14,4 +14,7 @@ Route::post('/auth/login', [AuthController::class, "login"]);
 Route::get('/auth/profile', [AuthController::class, "profile"])->middleware('auth:sanctum');
 Route::post('/auth/logout', [AuthController::class, "logout"])->middleware('auth:sanctum');
 
-Route::get('/auth/perfil', [AuthController::class, "perfil"]);
+Route::get('/auth/verifyToken', [AuthController::class, "verifyToken"])->middleware('auth:sanctum');
+
+
+

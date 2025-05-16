@@ -6,4 +6,12 @@ export const loginRequest = (user) => axios.post(`/auth/login`,user);
 
 
 
-export const perfil = () => axios.get(`/auth/perfil`);
+export const verifyTokenRequest = () => {
+    const token = localStorage.getItem('access_token');
+    return axios.get(`/auth/verifyToken`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};

@@ -111,20 +111,21 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function perfil(Request $request)
-{
-    // Simula la respuesta con datos del perfil
-    $user = [
-        "nombre" => "John Doe",
-        "correo" => "john.doe@example.com",
-        "pais" => "México"
-    ];
+    public function verifyToken(Request $request)
+    {
+        $user = $request->user(); // Esto obtiene el usuario autenticado desde el token
 
-    // Retorna una respuesta con el "perfil" simulado
-    return response()->json([
-        "mensaje" => "Perfil del usuario",
-        "usuario" => $user
-    ], 200);
-}
+        if ($user) {
+            return response()->json([
+                "valido" => true,
+                "mensaje" => "Token válido",
+                "usuario" => $user
+            ], 200);
+        }
 
+        return response()->json([
+            "valido" => false,
+            "mensaje" => "Token inválido o expirado"
+        ], 401);
+    }
 }
