@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Nav from "../components/Home/Nav";
 
 
 function Register(){
@@ -23,6 +24,7 @@ function Register(){
 
     return(
         <>
+            <Nav />
             <h1>soy Register</h1>
             <form onSubmit={onSubmit}>
                 <label htmlFor="">Nombre</label>
