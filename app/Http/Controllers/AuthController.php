@@ -19,7 +19,8 @@ class AuthController extends Controller
             'correo' => 'required|email',
             'contrasena' => 'required|same:cpassword',
             'numero' => 'required',
-            'pais' => 'required'
+            'pais' => 'required',
+            'rol' => 'required|in:estudiante,admin'
         ]);
 
         if ($validator->fails()) {
@@ -38,6 +39,7 @@ class AuthController extends Controller
         $estudiante->contrasena = bcrypt($request->contrasena);
         $estudiante->numero = $request->numero;
         $estudiante->pais = $request->pais;
+        $estudiante->rol = $request->rol;
 
         $estudiante->save();
 

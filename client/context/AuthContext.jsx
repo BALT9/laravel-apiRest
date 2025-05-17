@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginRequest, verifyTokenRequest } from "../src/api/auth";
+import { registerRequest, loginRequest, verifyTokenRequest } from "../src/api/auth";
 
 export const AuthContext = createContext();
 
@@ -17,6 +17,21 @@ export const AuthProvider = ({ children }) => {
     const [isAutenticated, setIsAutenticated] = useState(false);
     const [loading,setLoading] = useState();
 
+    //register
+    const singup = async(user)=>{
+        try {
+            const res = await registerRequest(user);
+            console.log("res", res);
+            console.log("res.data", res.data);
+            localStorage.setItem("access_token", res.data.access_token);
+            setUser(res.data);
+            setIsAutenticated(true);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // login 
     const signin = async (user) => {
         try {
             const res = await loginRequest(user);
@@ -68,6 +83,7 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             signin,
+            singup,
             loading,
             user,
             isAutenticated

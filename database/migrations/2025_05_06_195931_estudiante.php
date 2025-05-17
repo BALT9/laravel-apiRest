@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('contrasena');
             $table->string('numero');
             $table->string('pais');
+            $table->string('rol')->default('estudiante');
             $table->timestamps();
         });
     }
