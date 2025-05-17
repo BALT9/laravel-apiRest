@@ -1,0 +1,14 @@
+/* index.css */
+:root {
+  --primary-color: #28bf96;
+  --primary-color-dark: #209677;
+  --text-dark: #111827;
+  --text-light: #6b7280;
+  --white: #ffffff;
+  --font-text: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
