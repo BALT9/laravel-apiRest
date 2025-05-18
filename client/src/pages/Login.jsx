@@ -39,7 +39,7 @@ function Login() {
                             <input type="password" {...register("contrasena", { required: true })} />
                         </div>
 
-                        <button type="submit">Login</button>
+                        <button type="submit" className={log.btn} >Login</button>
                     </form>
                 </div>
             </div>
