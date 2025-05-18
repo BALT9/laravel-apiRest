@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form"
 import { useAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import log from './Styles/login.module.css';
 
@@ -41,6 +41,16 @@ function Login() {
 
                         <button type="submit" className={log.btn} >Login</button>
                     </form>
+                    <h6>or continue with</h6>
+                    <div className={log.logins}>
+                        <i className='bx bxl-google'></i>
+                        <i className='bx bxl-google'></i>
+                        <i className='bx bxl-google'></i>
+                    </div>
+                    <p>No tienes una cuenta? <Link to={'/register'}>Registrarse</Link></p>
+                </div>
+                <div className={log.container_image}>
+                    <img src="https://png.pngtree.com/png-clipart/20230913/original/pngtree-programming-clipart-professional-software-developer-cartoon-vector-png-image_11064085.png" alt="" />
                 </div>
             </div>
         </>

@@ -6,6 +6,7 @@
   --text-light: #6b7280;
   --white: #ffffff;
   --font-text: "Roboto", sans-serif;
+  --max-width: 1200px;
 }
 
 body {
