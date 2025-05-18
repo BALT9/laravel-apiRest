@@ -1,0 +1,14 @@
+.container{
+    font-family: var(--font-text);
+    min-height: 100vh;
+    padding-inline: 1rem;
+    display: grid;
+    overflow: hidden;
+}
+
+.container_content{
+    width: 100%;
+    padding-block: 2rem;
+    max-width: 400px;
+    margin-inline: auto;
+}

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import nav from './nav.module.css';
 
 function Nav() {
@@ -16,8 +18,8 @@ function Nav() {
                         <li className={nav.link}><a href="#">Contact</a></li>
                     </ul>
                     <div>
-                        <button className={`${nav.btn} ${nav.btn1}`}>Login</button>
-                        <button className={nav.btn}>Register</button>
+                        <Link to={"/login"} className={`${nav.btn} ${nav.btn1}`}>Login</Link>
+                        <Link to={"/register"} className={nav.btn}>Register</Link>
                     </div>
                 </nav>
             </div>
