@@ -69,7 +69,7 @@ function Register() {
                         </div>
                         <label htmlFor="">Pais</label>
                         <div className={reg.input_row}>
-                            <input type="password" placeholder="Confirma tu contraseña" {...register("pais", { required: true })} />
+                            <input type="text" placeholder="Escribe tu pais" {...register("pais", { required: true })} />
                         </div>
                         <label htmlFor="">Numero</label>
                         <div className={reg.input_row}>
@@ -81,7 +81,7 @@ function Register() {
                         </div>
                         
 
-                        <button type="submit" className={reg.btn} >Login</button>
+                        <button type="submit" className={reg.btn} >Register</button>
                     </form>
                     <h6>or continue with</h6>
                     <div className={reg.logins}>
@@ -89,7 +89,7 @@ function Register() {
                         <i className='bx bxl-google'></i>
                         <i className='bx bxl-google'></i>
                     </div>
-                    <p>No tienes una cuenta? <Link to={'/register'}>Registrarse</Link></p>
+                    <p>Ya tienes una cuenta? <Link to={'/Login'}>Login</Link></p>
                 </div>
                 <div className={reg.container_image}>
                     <img src="https://png.pngtree.com/png-clipart/20230913/original/pngtree-programming-clipart-professional-software-developer-cartoon-vector-png-image_11064085.png" alt="" />
