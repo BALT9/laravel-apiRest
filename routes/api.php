@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AdminMiddleware;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CursoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,10 +20,12 @@ Route::post('/auth/logout', [AuthController::class, "logout"])->middleware('auth
 Route::get('/auth/verifyToken', [AuthController::class, "verifyToken"])->middleware('auth:sanctum');
 
 // Rutas Cursos 
-Route::get('/auth/cursos', [AuthController::class, "index"])->middleware(['auth:sanctum', AdminMiddleware::class]);
-Route::get('/auth/cursos', [AuthController::class, "show"])->middleware(['auth:sanctum', AdminMiddleware::class]);
-Route::get('/auth/cursos', [AuthController::class, "store"])->middleware(['auth:sanctum', AdminMiddleware::class]);
-Route::get('/auth/cursos', [AuthController::class, "update"])->middleware(['auth:sanctum', AdminMiddleware::class]);
-Route::get('/auth/cursos', [AuthController::class, "destroy"])->middleware(['auth:sanctum', AdminMiddleware::class]);
+Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
+    Route::get('/auth/cursos', [CursoController::class, 'index']);       // Listar cursos
+    Route::post('/auth/cursos', [CursoController::class, 'store']);      // Crear curso
+    Route::get('/auth/cursos/{id}', [CursoController::class, 'show']);   // Ver curso específico
+    Route::put('/auth/cursos/{id}', [CursoController::class, 'update']); // Actualizar curso
+    Route::delete('/auth/cursos/{id}', [CursoController::class, 'destroy']); // Eliminar curso
+});
 
 
