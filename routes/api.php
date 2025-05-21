@@ -7,6 +7,7 @@ use App\Http\Middleware\AdminMiddleware;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CursoController;
+use App\Http\Controllers\InscripcionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -19,7 +20,9 @@ Route::post('/auth/logout', [AuthController::class, "logout"])->middleware('auth
 
 Route::get('/auth/verifyToken', [AuthController::class, "verifyToken"])->middleware('auth:sanctum');
 
-// Rutas Cursos 
+// Rutas Cursos publicas
+Route::get('/auth/cursospublicos', [CursoController::class, "index"]);
+// Rutas Cursos admin
 Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::get('/auth/cursos', [CursoController::class, 'index']);       // Listar cursos
     Route::post('/auth/cursos', [CursoController::class, 'store']);      // Crear curso
@@ -27,3 +30,7 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::put('/auth/cursos/{id}', [CursoController::class, 'update']); // Actualizar curso
     Route::delete('/auth/cursos/{id}', [CursoController::class, 'destroy']); // Eliminar curso
 });
+
+// para el estudiante 
+Route::get('/auth/inscripciones', [InscripcionController::class, "misinscripciones"])->middleware('auth:sanctum');
+Route::post('/auth/inscripcion', [InscripcionController::class, "inscribirme"])->middleware('auth:sanctum');
