@@ -28,11 +28,32 @@ class CursoController extends Controller
         }
     }
 
-    public function show(Request $request)
+    public function show($id)
     {
-        // Retornar el perfil del usuario en la respuesta
-        return response()->json("controlador funcionando", 200);
+        try {
+            $curso = Curso::find($id);
+
+            if (!$curso) {
+                return response()->json([
+                    'message' => 'Curso no encontrado',
+                    'status' => 404
+                ], 404);
+            }
+
+            return response()->json([
+                'message' => 'Curso obtenido correctamente',
+                'data' => $curso,
+                'status' => 200
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al obtener el curso',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ], 500);
+        }
     }
+
 
     // crea el curso 
     public function store(Request $request)
@@ -85,15 +106,80 @@ class CursoController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        // Retornar el perfil del usuario en la respuesta
-        return response()->json("controlador funcionando", 200);
+        // Validar los datos
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'sometimes|required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'docente' => 'sometimes|required|string|max:255',
+            'fecha_inicio' => 'nullable|date',
+            'modalidad' => 'nullable|string|max:255',
+            'lo_que_aprenderas' => 'nullable|array',
+            'temario' => 'nullable|array',
+            'requisitos' => 'nullable|array',
+            'horarios' => 'nullable|array',
+            'duracion' => 'nullable|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error en la validación de datos',
+                'errors' => $validator->errors(),
+                'status' => 422
+            ], 422);
+        }
+
+        try {
+            $curso = Curso::find($id);
+
+            if (!$curso) {
+                return response()->json([
+                    'message' => 'Curso no encontrado',
+                    'status' => 404
+                ], 404);
+            }
+
+            $curso->update($request->all());
+
+            return response()->json([
+                'message' => 'Curso actualizado correctamente',
+                'data' => $curso,
+                'status' => 200
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al actualizar el curso',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ], 500);
+        }
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        // Retornar el perfil del usuario en la respuesta
-        return response()->json("controlador funcionando", 200);
+        try {
+            $curso = Curso::find($id);
+
+            if (!$curso) {
+                return response()->json([
+                    'message' => 'Curso no encontrado',
+                    'status' => 404
+                ], 404);
+            }
+
+            $curso->delete();
+
+            return response()->json([
+                'message' => 'Curso eliminado correctamente',
+                'status' => 200
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar el curso',
+                'error' => $e->getMessage(),
+                'status' => 500
+            ], 500);
+        }
     }
 }
