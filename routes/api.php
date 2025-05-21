@@ -27,5 +27,3 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
     Route::put('/auth/cursos/{id}', [CursoController::class, 'update']); // Actualizar curso
     Route::delete('/auth/cursos/{id}', [CursoController::class, 'destroy']); // Eliminar curso
 });
-
-
