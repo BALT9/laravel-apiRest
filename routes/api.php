@@ -32,5 +32,5 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])->group(function () {
 });
 
 // para el estudiante 
-Route::get('/auth/inscripciones', [InscripcionController::class, "misinscripciones"])->middleware('auth:sanctum');
+Route::get('/auth/inscripciones', [InscripcionController::class, "misCursos"])->middleware('auth:sanctum');
 Route::post('/auth/inscripcion', [InscripcionController::class, "inscribirme"])->middleware('auth:sanctum');
