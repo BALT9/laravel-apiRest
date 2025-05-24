@@ -15,7 +15,7 @@ function Register() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAutenticated) navigate("/profile");
+        if (isAutenticated) navigate("/dashboard");
     }, [isAutenticated])
 
     const onSubmit = handleSubmit((data) => {

@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             console.log("res", res);
             console.log("res.data", res.data);
             localStorage.setItem("access_token", res.data.access_token);
-            setUser(res.data);
+            setUser(res.data.usuario);
             setIsAutenticated(true);
         } catch (error) {
             console.log(error);
@@ -36,12 +36,13 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await loginRequest(user);
             console.log("res", res);
-            console.log("res.data", res.data);
+            console.log("res.data", res.data.usuario);
             //Guarda el token en localStorage
             localStorage.setItem("access_token", res.data.access_token);
 
             setUser(res.data);
             setIsAutenticated(true);
+            console.log("soy user");
         } catch (error) {
             console.log(error);
         }
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }) => {
 
             try {
                 const res = await verifyTokenRequest(token);
-                console.log(res);
+                console.log(res.data.usuario);
                 if (!res.data) {
                     setIsAutenticated(false);
                     setLoading(false);
