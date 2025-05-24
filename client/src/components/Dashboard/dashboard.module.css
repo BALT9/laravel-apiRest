@@ -106,6 +106,27 @@ header .image_text .header_text {
     transition: var(--tran-04);
 }
 
+.sidebar li button{
+    border: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    transition: var(--tran-04);
+    background-color: var(--sidebar-color);
+    cursor: pointer;
+}
+
+.sidebar li button:hover{
+    background: var(--primary-color);
+}
+
+.sidebar li button:hover .icon,
+.sidebar li button:hover .text{
+    color: var(--sidebar-color);
+}
+
 .sidebar li a:hover{
     background: var(--primary-color);
 }
