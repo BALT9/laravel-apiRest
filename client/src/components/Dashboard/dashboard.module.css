@@ -13,6 +13,20 @@
     width: 250px;
     background-color: var(--sidebar-color);
     padding: 10px 14px;
+    transition: var(--tran-05);
+}
+
+.sidebar.close{
+    width: 60px;
+}
+
+.sidebar.close .text{
+    display: none;
+    transition: var(--tran-04);
+}
+.sidebar.close li button{
+    display: flex;
+    justify-content: center;
 }
 
 /* reusable css   */
@@ -110,6 +124,7 @@ header .image_text .header_text {
     border: none;
     display: flex;
     align-items: center;
+    /* justify-content: center; */
     height: 100%;
     width: 100%;
     border-radius: 5px;

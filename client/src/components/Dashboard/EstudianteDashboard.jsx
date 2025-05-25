@@ -1,9 +1,17 @@
 import dashboard from './dashboard.module.css';
+import { useState } from 'react';
 
 function EstudianteDashboard({ user, logout }) {
+
+    const [isClosed, setIsClosed] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsClosed(!isClosed);
+    };
+
     return (
         <div className={dashboard.container}>
-            <nav className={dashboard.sidebar}>
+            <nav className={`${dashboard.sidebar} ${isClosed ? dashboard.close : ''}`}>
                 <header>
                     <div className={dashboard.image_text}>
                         <span className={dashboard.image}>
@@ -14,14 +22,18 @@ function EstudianteDashboard({ user, logout }) {
                             <span className={dashboard.profession}>Estudiante</span>
                         </div>
                     </div>
-                    <i className={`bx bx-chevron-right ${dashboard.toggle}`}></i>
+                    <i
+                        className={`bx bx-chevron-right ${dashboard.toggle}`}
+                        onClick={toggleSidebar}
+                        style={{ cursor: 'pointer' }}
+                    ></i>
                 </header>
 
                 <div className={dashboard.menu_bar}>
                     <div className={dashboard.menu}>
                         <li className={dashboard.nav_link}>
                             <i className={`bx bx-home-alt ${dashboard.icon}`}></i>
-                            <span>DASHBOARD</span>
+                            <span className={`${dashboard.text} ${dashboard.nav_text}`}>DASHBOARD</span>
                         </li>
                         <li className={dashboard.nav_link}>
                             <a href="#">
