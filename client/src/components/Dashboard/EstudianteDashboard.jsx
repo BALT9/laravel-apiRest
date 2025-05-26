@@ -1,12 +1,32 @@
-import dashboard from './dashboard.module.css';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import dashboard from './dashboard.module.css';
 
-function EstudianteDashboard({ user, logout }) {
+// Componentes simulados
+function MisCursos() {
+    return <div>Mis Cursos (Contenido del estudiante)</div>;
+}
 
+function CursosDisponibles() {
+    return <div>Cursos Disponibles para inscripción</div>;
+}
+
+function EstudianteDashboard({ user, logout, section }) {
     const [isClosed, setIsClosed] = useState(false);
 
     const toggleSidebar = () => {
         setIsClosed(!isClosed);
+    };
+
+    const renderSection = () => {
+        switch (section) {
+            case 'mis-cursos':
+                return <MisCursos />;
+            case 'cursos':
+                return <CursosDisponibles />;
+            default:
+                return <MisCursos />;
+        }
     };
 
     return (
@@ -32,20 +52,16 @@ function EstudianteDashboard({ user, logout }) {
                 <div className={dashboard.menu_bar}>
                     <div className={dashboard.menu}>
                         <li className={dashboard.nav_link}>
-                            <i className={`bx bx-home-alt ${dashboard.icon}`}></i>
-                            <span className={`${dashboard.text} ${dashboard.nav_text}`}>DASHBOARD</span>
-                        </li>
-                        <li className={dashboard.nav_link}>
-                            <a href="#">
+                            <Link to="/dashboard/mis-cursos" className={dashboard.link}>
                                 <i className={`bx bx-book ${dashboard.icon}`}></i>
                                 <span className={`${dashboard.text} ${dashboard.nav_text}`}>Mis Cursos</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className={dashboard.nav_link}>
-                            <a href="#">
+                            <Link to="/dashboard/cursos" className={dashboard.link}>
                                 <i className={`bx bx-library ${dashboard.icon}`}></i>
                                 <span className={`${dashboard.text} ${dashboard.nav_text}`}>Cursos Disponibles</span>
-                            </a>
+                            </Link>
                         </li>
                     </div>
 
@@ -59,6 +75,11 @@ function EstudianteDashboard({ user, logout }) {
                     </div>
                 </div>
             </nav>
+
+            <section className={dashboard.home}>
+                <div className={dashboard.text}>Hola, {user.nombre}</div>
+                {renderSection()}
+            </section>
         </div>
     );
 }

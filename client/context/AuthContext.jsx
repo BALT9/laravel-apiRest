@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
     const [isAutenticated, setIsAutenticated] = useState(false);
-    const [loading, setLoading] = useState();
+    const [loading, setLoading] = useState(true);
 
     //register
     const singup = async (user) => {

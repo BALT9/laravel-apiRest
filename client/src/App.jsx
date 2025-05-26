@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -16,7 +16,9 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path='/dashboard' element={<Dashboard />} />
+            {/* Redirige /dashboard a /dashboard/panel */}
+            <Route path='/dashboard/:section' element={<Dashboard />} />
+            <Route path='/dashboard' element={<Navigate to="/dashboard/panel" replace />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,11 +1,33 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import dashboard from './dashboard.module.css';
 
-function AdminDashboard({ user, logout }) {
+// Componente de ejemplo para el panel de administración
+function PanelAdministracion() {
+    return <div>Contenido del Panel de Administración</div>;
+}
+
+function GestionarUsuarios() {
+    return <div>Gestión de Usuarios</div>;
+}
+
+function AdminDashboard({ user, logout, section }) {
     const [isClosed, setIsClosed] = useState(false);
 
     const toggleSidebar = () => {
         setIsClosed(!isClosed);
+    };
+
+    // Renderizar contenido dinámico según el parámetro
+    const renderSection = () => {
+        switch (section) {
+            case 'panel':
+                return <PanelAdministracion />;
+            case 'usuarios':
+                return <GestionarUsuarios />;
+            default:
+                return <PanelAdministracion />;
+        }
     };
 
     return (
@@ -35,16 +57,16 @@ function AdminDashboard({ user, logout }) {
                             <span className={`${dashboard.text} ${dashboard.nav_text}`}>DASHBOARD</span>
                         </li>
                         <li className={dashboard.nav_link}>
-                            <a href="#">
+                            <Link to="/dashboard/panel" className={dashboard.link}>
                                 <i className={`bx bx-cog ${dashboard.icon}`}></i>
                                 <span className={`${dashboard.text} ${dashboard.nav_text}`}>Panel de Administración</span>
-                            </a>
+                            </Link>
                         </li>
                         <li className={dashboard.nav_link}>
-                            <a href="#">
+                            <Link to="/dashboard/usuarios" className={dashboard.link}>
                                 <i className={`bx bx-user ${dashboard.icon}`}></i>
                                 <span className={`${dashboard.text} ${dashboard.nav_text}`}>Gestionar Usuarios</span>
-                            </a>
+                            </Link>
                         </li>
                     </div>
 
@@ -58,6 +80,11 @@ function AdminDashboard({ user, logout }) {
                     </div>
                 </div>
             </nav>
+
+            <section className={dashboard.home}>
+                <div className={dashboard.text}>Hola, {user.nombre}</div>
+                {renderSection()}
+            </section>
         </div>
     );
 }

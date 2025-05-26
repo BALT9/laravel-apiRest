@@ -9,22 +9,24 @@
     position: fixed;
     top: 0;
     left: 0;
-    height:100vh;
+    height: 100vh;
     width: 250px;
     background-color: var(--sidebar-color);
     padding: 10px 14px;
     transition: var(--tran-05);
+    z-index: 100;
 }
 
-.sidebar.close{
+.sidebar.close {
     width: 60px;
 }
 
-.sidebar.close .text{
+.sidebar.close .text {
     display: none;
     transition: var(--tran-04);
 }
-.sidebar.close li button{
+
+.sidebar.close li button {
     display: flex;
     justify-content: center;
 }
@@ -51,7 +53,7 @@
     align-items: center;
 }
 
-.sidebar li .icon{
+.sidebar li .icon {
     font-size: 20px;
     min-width: 60px;
     display: flex;
@@ -60,9 +62,9 @@
 }
 
 .sidebar li .icon,
-.sidebar li .text{
+.sidebar li .text {
     color: var(--text-light);
-    transition: var(--tran-03);
+    transition: var(--tran-01);
 }
 
 .sidebar .image_text img {
@@ -110,7 +112,7 @@ header .image_text .header_text {
     font-size: 25px;
 }
 
-.sidebar li a{
+.sidebar li a {
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -120,7 +122,7 @@ header .image_text .header_text {
     transition: var(--tran-04);
 }
 
-.sidebar li button{
+.sidebar li button {
     border: none;
     display: flex;
     align-items: center;
@@ -128,33 +130,47 @@ header .image_text .header_text {
     height: 100%;
     width: 100%;
     border-radius: 5px;
-    transition: var(--tran-04);
+    transition: var(--tran-05);
     background-color: var(--sidebar-color);
     cursor: pointer;
 }
 
-.sidebar li button:hover{
+.sidebar li button:hover {
     background: var(--primary-color);
 }
 
 .sidebar li button:hover .icon,
-.sidebar li button:hover .text{
+.sidebar li button:hover .text {
     color: var(--sidebar-color);
 }
 
-.sidebar li a:hover{
+.sidebar li a:hover {
     background: var(--primary-color);
 }
 
 .sidebar li a:hover .icon,
-.sidebar li a:hover .text{
+.sidebar li a:hover .text {
     color: var(--sidebar-color);
 }
 
-.sidebar .menu_bar{
+.sidebar .menu_bar {
     /* background-color: rebeccapurple; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: calc(100% - 100px);
+}
+
+.home {
+    /* background-color: rgba(255, 0, 0, 0.371); */
+    position: relative;
+    height: 100vh;
+    left: 280px;
+    width: calc(100% - 280px);
+    transition: var(--tran-05);
+}
+
+.sidebar.close~.home {
+    left: 88px;
+    width: calc(100% - 88px);
 }
