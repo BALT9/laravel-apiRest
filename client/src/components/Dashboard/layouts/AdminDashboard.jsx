@@ -1,31 +1,26 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PanelAdministracion from '../components/PanelAdministracion';
+
 import dashboard from './dashboard.module.css';
+import GestionarCursos from '../components/GestionarCursos';
 
-// Componentes simulados
-function MisCursos() {
-    return <div>Mis Cursos (Contenido del estudiante)</div>;
-}
-
-function CursosDisponibles() {
-    return <div>Cursos Disponibles para inscripción</div>;
-}
-
-function EstudianteDashboard({ user, logout, section }) {
+function AdminDashboard({ user, logout, section }) {
     const [isClosed, setIsClosed] = useState(false);
 
     const toggleSidebar = () => {
         setIsClosed(!isClosed);
     };
 
+    // Renderizar contenido dinámico según el parámetro
     const renderSection = () => {
         switch (section) {
-            case 'mis-cursos':
-                return <MisCursos />;
-            case 'cursos':
-                return <CursosDisponibles />;
+            case 'panel':
+                return <PanelAdministracion />;
+            case 'usuarios':
+                return <GestionarCursos />;
             default:
-                return <MisCursos />;
+                return <PanelAdministracion />;
         }
     };
 
@@ -39,7 +34,7 @@ function EstudianteDashboard({ user, logout, section }) {
                         </span>
                         <div className={`${dashboard.text} ${dashboard.header_text}`}>
                             <span className={dashboard.name}>CodeBalt</span>
-                            <span className={dashboard.profession}>Estudiante</span>
+                            <span className={dashboard.profession}>Administrador</span>
                         </div>
                     </div>
                     <i
@@ -52,15 +47,19 @@ function EstudianteDashboard({ user, logout, section }) {
                 <div className={dashboard.menu_bar}>
                     <div className={dashboard.menu}>
                         <li className={dashboard.nav_link}>
-                            <Link to="/dashboard/mis-cursos" className={dashboard.link}>
-                                <i className={`bx bx-book ${dashboard.icon}`}></i>
-                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Mis Cursos</span>
+                            <i className={`bx bx-home-alt ${dashboard.icon}`}></i>
+                            <span className={`${dashboard.text} ${dashboard.nav_text}`}>DASHBOARD</span>
+                        </li>
+                        <li className={dashboard.nav_link}>
+                            <Link to="/dashboard/panel" className={dashboard.link}>
+                                <i className={`bx bx-cog ${dashboard.icon}`}></i>
+                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Panel de Administración</span>
                             </Link>
                         </li>
                         <li className={dashboard.nav_link}>
-                            <Link to="/dashboard/cursos" className={dashboard.link}>
-                                <i className={`bx bx-library ${dashboard.icon}`}></i>
-                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Cursos Disponibles</span>
+                            <Link to="/dashboard/usuarios" className={dashboard.link}>
+                                <i className={`bx bx-user ${dashboard.icon}`}></i>
+                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Gestionar Usuarios</span>
                             </Link>
                         </li>
                     </div>
@@ -77,11 +76,10 @@ function EstudianteDashboard({ user, logout, section }) {
             </nav>
 
             <section className={dashboard.home}>
-                <div className={dashboard.text}>Hola, {user.nombre}</div>
                 {renderSection()}
             </section>
         </div>
     );
 }
 
-export default EstudianteDashboard;
+export default AdminDashboard;

@@ -1,29 +1,27 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import MisCursos from '../components/MIsCursos';
+import CursosDisponibles from '../components/CursosDisponibles';
+
 import dashboard from './dashboard.module.css';
-import PanelAdministracion from './components/PanelAdministracion';
 
+// Componentes simulados
 
-function GestionarUsuarios() {
-    return <div>Gestión de Usuarios</div>;
-}
-
-function AdminDashboard({ user, logout, section }) {
+function EstudianteDashboard({ user, logout, section }) {
     const [isClosed, setIsClosed] = useState(false);
 
     const toggleSidebar = () => {
         setIsClosed(!isClosed);
     };
 
-    // Renderizar contenido dinámico según el parámetro
     const renderSection = () => {
         switch (section) {
-            case 'panel':
-                return <PanelAdministracion />;
-            case 'usuarios':
-                return <GestionarUsuarios />;
+            case 'mis-cursos':
+                return <MisCursos />;
+            case 'cursos':
+                return <CursosDisponibles />;
             default:
-                return <PanelAdministracion />;
+                return <MisCursos />;
         }
     };
 
@@ -37,7 +35,7 @@ function AdminDashboard({ user, logout, section }) {
                         </span>
                         <div className={`${dashboard.text} ${dashboard.header_text}`}>
                             <span className={dashboard.name}>CodeBalt</span>
-                            <span className={dashboard.profession}>Administrador</span>
+                            <span className={dashboard.profession}>Estudiante</span>
                         </div>
                     </div>
                     <i
@@ -50,19 +48,15 @@ function AdminDashboard({ user, logout, section }) {
                 <div className={dashboard.menu_bar}>
                     <div className={dashboard.menu}>
                         <li className={dashboard.nav_link}>
-                            <i className={`bx bx-home-alt ${dashboard.icon}`}></i>
-                            <span className={`${dashboard.text} ${dashboard.nav_text}`}>DASHBOARD</span>
-                        </li>
-                        <li className={dashboard.nav_link}>
-                            <Link to="/dashboard/panel" className={dashboard.link}>
-                                <i className={`bx bx-cog ${dashboard.icon}`}></i>
-                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Panel de Administración</span>
+                            <Link to="/dashboard/mis-cursos" className={dashboard.link}>
+                                <i className={`bx bx-book ${dashboard.icon}`}></i>
+                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Mis Cursos</span>
                             </Link>
                         </li>
                         <li className={dashboard.nav_link}>
-                            <Link to="/dashboard/usuarios" className={dashboard.link}>
-                                <i className={`bx bx-user ${dashboard.icon}`}></i>
-                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Gestionar Usuarios</span>
+                            <Link to="/dashboard/cursos" className={dashboard.link}>
+                                <i className={`bx bx-library ${dashboard.icon}`}></i>
+                                <span className={`${dashboard.text} ${dashboard.nav_text}`}>Cursos Disponibles</span>
                             </Link>
                         </li>
                     </div>
@@ -85,4 +79,4 @@ function AdminDashboard({ user, logout, section }) {
     );
 }
 
-export default AdminDashboard;
+export default EstudianteDashboard;

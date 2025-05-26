@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import AdminDashboard from '../components/Dashboard/AdminDashboard';
-import EstudianteDashboard from '../components/Dashboard/EstudianteDashboard';
+import AdminDashboard from '../components/Dashboard/layouts/AdminDashboard';
+import EstudianteDashboard from '../components/Dashboard/layouts/EstudianteDashboard';
 
 function Dashboard() {
     const { user, logout } = useAuth();
