@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import dashboard from './dashboard.module.css';
+import PanelAdministracion from './components/PanelAdministracion';
 
-// Componente de ejemplo para el panel de administración
-function PanelAdministracion() {
-    return <div>Contenido del Panel de Administración</div>;
-}
 
 function GestionarUsuarios() {
     return <div>Gestión de Usuarios</div>;
@@ -82,7 +79,6 @@ function AdminDashboard({ user, logout, section }) {
             </nav>
 
             <section className={dashboard.home}>
-                <div className={dashboard.text}>Hola, {user.nombre}</div>
                 {renderSection()}
             </section>
         </div>

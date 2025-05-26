@@ -27,26 +27,6 @@ function Register() {
         <>
             <div className={reg.container}>
 
-                {/* <h1>soy Register</h1>
-                <form onSubmit={onSubmit}>
-                    <label htmlFor="">Nombre</label>
-                    <input type="text" {...register("nombre", { required: true })} />
-                    <label htmlFor="">Correo</label>
-                    <input type="email" {...register("correo", { required: true })} />
-                    <label htmlFor="">Contraseña</label>
-                    <input type="password" {...register("contrasena", { required: true })} />
-                    <label htmlFor="">Confirmar Contraseña</label>
-                    <input type="password" {...register("cpassword", { required: true })} />
-                    <label htmlFor="">pais</label>
-                    <input type="text" {...register("pais", { required: true })} />
-                    <label htmlFor="">Numero</label>
-                    <input type="number" {...register("numero", { required: true })} />
-                    <label htmlFor="">Rol</label>
-                    <input type="text" {...register("rol", { required: true })} />
-
-                    <button type="submit">Register</button>
-                </form> */}
-
                 <div className={reg.container_content}>
                     <h2>Logotipo</h2>
                     <h1>Registro</h1>

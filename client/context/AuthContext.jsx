@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             console.log("res", res);
             console.log("res.data", res.data);
             localStorage.setItem("access_token", res.data.access_token);
-            setUser(res.data.usuario);
+            setUser(res.data);
             setIsAutenticated(true);
         } catch (error) {
             console.log(error);
