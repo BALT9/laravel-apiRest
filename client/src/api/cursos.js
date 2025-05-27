@@ -10,5 +10,15 @@ export const getCursosRequest = () => {
     });
 }
 
+export const CreateCursosRequest = (cursos) => {
+    const token = localStorage.getItem('access_token');
+    return axios.post('/auth/cursos', cursos, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};
+
 
 export const getCursosRequestPublic = () => axios.get('/auth/cursospublicos');

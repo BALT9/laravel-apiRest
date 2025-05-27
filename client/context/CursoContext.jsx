@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 // crud 
-import { getCursosRequest, getCursosRequestPublic } from "../src/api/cursos";
+import { getCursosRequest, getCursosRequestPublic, CreateCursosRequest } from "../src/api/cursos";
 
 export const CursoContext = createContext();
 
@@ -40,11 +40,19 @@ export function CursoProvider({ children }) {
         }
     }
 
+    // crear cursos 
+
+    const createCursos = async(curso) => {
+        const res = await CreateCursosRequest(curso);
+        console.log(res);
+    }
+
     return (
         <CursoContext.Provider
             value={{
                 getCursos,
                 getCursosPublic,
+                createCursos,
                 curso
             }}
         >
