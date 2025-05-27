@@ -1,6 +1,18 @@
+import { useEffect, useState } from 'react';
+import { useCursos } from '../../../../context/CursoContext';
+
 import styles from './cursosdisponibles.module.css';
 
 function CursosDisponibles() {
+
+    const { getCursos, getCursosPublic, curso } = useCursos();
+
+    useEffect(() => {
+        getCursos();
+        getCursosPublic();
+        console.log('hola di', curso)
+    }, []);
+
     // Cursos simulados
     const cursos = [
         {
@@ -25,21 +37,21 @@ function CursosDisponibles() {
             imagen: 'https://via.placeholder.com/300x150?text=Python',
         },
         {
-            id: 3,
+            id: 4,
             nombre: 'Curso de Python',
             descripcion: 'Automatización con Python',
             duracion: '35 horas',
             imagen: 'https://via.placeholder.com/300x150?text=Python',
         },
         {
-            id: 3,
+            id: 5,
             nombre: 'Curso de Python',
             descripcion: 'Automatización con Python',
             duracion: '35 horas',
             imagen: 'https://via.placeholder.com/300x150?text=Python',
         },
         {
-            id: 3,
+            id: 6,
             nombre: 'Curso de Python',
             descripcion: 'Automatización con Python',
             duracion: '35 horas',
@@ -53,6 +65,7 @@ function CursosDisponibles() {
 
     return (
         <div className={styles.container}>
+            <pre>{JSON.stringify(curso, null, 2)}</pre>
             <h2 className={styles.heading}>Cursos Disponibles para Inscripción</h2>
 
             <div className={styles.cardsGrid}>
