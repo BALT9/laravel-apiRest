@@ -14,67 +14,25 @@ function GestionarCursos() {
         console.log('hola di', curso)
     }, []);
 
-    // Datos simulados
-    const cursos = [
-        {
-            id: 1,
-            nombre: 'Curso de React',
-            descripcion: 'Aprende React desde cero',
-            duracion: '40 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=React',
-        },
-        {
-            id: 2,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-        {
-            id: 3,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-        {
-            id: 4,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-        {
-            id: 5,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-        {
-            id: 6,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-    ];
 
     const handleCreate = () => setShowForm(true);
     const handleClose = () => setShowForm(false);
 
     return (
         <div className={styles.container}>
-            <pre>{JSON.stringify(curso, null, 2)}</pre>
             <h2 className={styles.heading}>Gestión de Cursos</h2>
             <button className={styles.createButton} onClick={handleCreate}>
                 + Crear Curso
             </button>
 
             <div className={styles.cardsGrid}>
-                {cursos.map((curso) => (
+                {curso?.data?.map((curso) => (
                     <div key={curso.id} className={styles.card}>
-                        <img src={curso.imagen} alt={curso.nombre} className={styles.image} />
+                        <img
+                            src={curso.imagen || 'https://webandcrafts.com/_next/image?url=https%3A%2F%2Fadmin.wac.co%2Fuploads%2F10_Great_Sites_Built_with_Laravel_Framework_0e893c2354.jpg&w=4500&q=90'}
+                            alt={curso.nombre}
+                            className={styles.image}
+                        />
                         <h3>{curso.nombre}</h3>
                         <p>{curso.descripcion}</p>
                         <span className={styles.duracion}>{curso.duracion}</span>
@@ -85,6 +43,7 @@ function GestionarCursos() {
                     </div>
                 ))}
             </div>
+
 
             {showForm && (
                 <div className={styles.modal}>
@@ -115,6 +74,7 @@ function GestionarCursos() {
                     </div>
                 </div>
             )}
+            <pre>{JSON.stringify(curso, null, 2)}</pre>
         </div>
     );
 }
