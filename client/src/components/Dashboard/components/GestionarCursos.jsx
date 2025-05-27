@@ -1,8 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './gestionarcursos.module.css';
+
+import { useCursos } from '../../../../context/CursoContext';
 
 function GestionarCursos() {
     const [showForm, setShowForm] = useState(false);
+
+    const { getCursos, getCursosPublic, curso } = useCursos();
+
+    useEffect(() => {
+        getCursos();
+        getCursosPublic();
+        console.log('hola di', curso)
+    }, []);
 
     // Datos simulados
     const cursos = [
@@ -21,28 +31,28 @@ function GestionarCursos() {
             imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
         },
         {
-            id: 2,
+            id: 3,
             nombre: 'Curso de JavaScript',
             descripcion: 'Domina JS moderno',
             duracion: '30 horas',
             imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
         },
         {
-            id: 2,
+            id: 4,
             nombre: 'Curso de JavaScript',
             descripcion: 'Domina JS moderno',
             duracion: '30 horas',
             imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
         },
         {
-            id: 2,
+            id: 5,
             nombre: 'Curso de JavaScript',
             descripcion: 'Domina JS moderno',
             duracion: '30 horas',
             imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
         },
         {
-            id: 2,
+            id: 6,
             nombre: 'Curso de JavaScript',
             descripcion: 'Domina JS moderno',
             duracion: '30 horas',
@@ -55,6 +65,7 @@ function GestionarCursos() {
 
     return (
         <div className={styles.container}>
+            <pre>{JSON.stringify(curso, null, 2)}</pre>
             <h2 className={styles.heading}>Gestión de Cursos</h2>
             <button className={styles.createButton} onClick={handleCreate}>
                 + Crear Curso
