@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 // crud 
-import { getCursosRequest, getCursosRequestPublic, CreateCursosRequest, updateCursoRequest, deleteCursoRequest } from "../src/api/cursos";
+import { getCursosRequest, getCursosRequestPublic, CreateCursosRequest, updateCursoRequest, deleteCursoRequest, getInscripcionesRequest, inscribirseRequest } from "../src/api/cursos";
 
 export const CursoContext = createContext();
 
@@ -16,6 +16,8 @@ export const useCursos = () => {
 export function CursoProvider({ children }) {
 
     const [curso, setCurso] = useState([]);
+
+    const [misCursos,setMisCursos] = useState([]);
 
     // obtener los cursos protegidos (requiere autenticación y admin)
     const getCursos = async () => {
@@ -87,6 +89,28 @@ export function CursoProvider({ children }) {
         }
     };
 
+    // inscripciones  
+
+    const handleInscribirse = async (curso) => {
+        try {
+            await inscribirseRequest(curso.id);
+            alert(`Inscrito en: ${curso.nombre}`);
+        } catch (err) {
+            console.error(err);
+            alert('No se pudo inscribir. Ya estas inscrito');
+        }
+    };
+
+    const getMisCursos = async () => {
+        try {
+            const res = await getInscripcionesRequest();
+            setMisCursos(res.data.cursos); // define `misCursos` en tu contexto si lo necesitas
+            console.log("Cursos inscritos del usuario:", res.data);
+        } catch (error) {
+            console.error("Error al obtener cursos inscritos:", error);
+        }
+    };
+
     return (
         <CursoContext.Provider
             value={{
@@ -95,6 +119,9 @@ export function CursoProvider({ children }) {
                 createCursos,
                 updateCurso,
                 deleteCurso,
+                handleInscribirse,
+                getMisCursos,
+                misCursos,
                 curso
             }}
         >

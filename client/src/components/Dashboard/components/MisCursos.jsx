@@ -1,37 +1,33 @@
+import { useEffect } from 'react';
+import { useCursos } from '../../../../context/CursoContext';
+
 import styles from './miscursos.module.css';
 
 function MisCursos() {
-    const cursosInscritos = [
-        {
-            id: 1,
-            nombre: 'Curso de React',
-            descripcion: 'Aprende React desde cero',
-            duracion: '40 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=React',
-        },
-        {
-            id: 2,
-            nombre: 'Curso de Python',
-            descripcion: 'Automatización con Python',
-            duracion: '35 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=Python',
-        },
-    ];
+    const { misCursos, getMisCursos } = useCursos();
+
+    useEffect(() => {
+        getMisCursos();
+    }, []);
 
     const handleVerCurso = (curso) => {
         alert(`Abriendo contenido de: ${curso.nombre}`);
-        // Aquí podrías usar navigate(`/curso/${curso.id}`) si usas React Router
     };
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.heading}>Mis Cursos Disponibles</h2>
+            <h2 className={styles.heading}>Mis Cursos Inscritos</h2>
             <div className={styles.cardsGrid}>
-                {cursosInscritos.map((curso) => (
+                {misCursos.length === 0 && <p>No estás inscrito en ningún curso.</p>}
+                {misCursos.map((curso) => (
                     <div key={curso.id} className={styles.card}>
-                        <img src={curso.imagen} alt={curso.nombre} className={styles.image} />
+                        <img
+                            src={curso.imagen || 'https://via.placeholder.com/300x150?text=Sin+Imagen'}
+                            alt={curso.nombre}
+                            className={styles.image}
+                        />
                         <h3>{curso.nombre}</h3>
-                        <p>{curso.descripcion}</p>
+                        <p>{curso.descripcion || curso.lo_que_aprenderas?.join(', ')}</p>
                         <span className={styles.duracion}>{curso.duracion}</span>
                         <button
                             className={styles.verCurso}

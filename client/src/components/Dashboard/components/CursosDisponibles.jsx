@@ -4,17 +4,11 @@ import { useCursos } from '../../../../context/CursoContext';
 import styles from './cursosdisponibles.module.css';
 
 function CursosDisponibles() {
-    const { getCursos, getCursosPublic, curso } = useCursos();
+    const { getCursosPublic, curso, handleInscribirse } = useCursos();
 
     useEffect(() => {
-        // getCursos();
         getCursosPublic();
-        console.log('Cursos cargados:', curso);
     }, []);
-
-    const handleInscribirse = (curso) => {
-        alert(`Te has inscrito en: ${curso.nombre}`);
-    };
 
     return (
         <div className={styles.container}>
@@ -42,7 +36,6 @@ function CursosDisponibles() {
                     </div>
                 ))}
             </div>
-            {/* <pre>{JSON.stringify(curso, null, 2)}</pre> */}
         </div>
     );
 }

@@ -41,6 +41,28 @@ export const deleteCursoRequest = (id) => {
     });
 };
 
+// inscripciones  
+
+export const inscribirseRequest = (curso_id) => {
+    const token = localStorage.getItem('access_token');
+    return axios.post('/auth/inscripcion', { curso_id }, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};
+
+export const getInscripcionesRequest = () => {
+    const token = localStorage.getItem('access_token');
+    return axios.get('/auth/inscripciones', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};
+
 
 
 export const getCursosRequestPublic = () => axios.get('/auth/cursospublicos');
