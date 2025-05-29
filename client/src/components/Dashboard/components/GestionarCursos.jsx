@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styles from './gestionarcursos.module.css';
 
 import { useCursos } from '../../../../context/CursoContext';
+import CursoForm from './componentsAdmin/CursoForm';
 
 function GestionarCursos() {
     const [showForm, setShowForm] = useState(false);
@@ -43,37 +44,7 @@ function GestionarCursos() {
                     </div>
                 ))}
             </div>
-
-
-            {showForm && (
-                <div className={styles.modal}>
-                    <div className={styles.formContainer}>
-                        <h3>Crear / Editar Curso</h3>
-                        <form>
-                            <label>
-                                Nombre del curso:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Descripción:
-                                <textarea />
-                            </label>
-                            <label>
-                                Duración (horas):
-                                <input type="number" />
-                            </label>
-                            <label>
-                                URL de la imagen:
-                                <input type="text" placeholder="https://..." />
-                            </label>
-                            <div className={styles.formActions}>
-                                <button type="submit">Guardar</button>
-                                <button type="button" onClick={handleClose}>Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
+            {showForm && <CursoForm onClose={handleClose} />}
             <pre>{JSON.stringify(curso, null, 2)}</pre>
         </div>
     );
