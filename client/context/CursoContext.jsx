@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 // crud 
-import { getCursosRequest, getCursosRequestPublic, CreateCursosRequest } from "../src/api/cursos";
+import { getCursosRequest, getCursosRequestPublic, CreateCursosRequest, updateCursoRequest, deleteCursoRequest } from "../src/api/cursos";
 
 export const CursoContext = createContext();
 
@@ -24,10 +24,9 @@ export function CursoProvider({ children }) {
             setCurso(res.data);
             console.log("Cursos protegidos: ", res.data);
         } catch (error) {
-            console.log(error);
+            console.error("Error al obtener cursos protegidos:", error);
         }
     }
-
 
     // obtener los cursos públicos (sin autenticación)
     const getCursosPublic = async () => {
@@ -36,16 +35,57 @@ export function CursoProvider({ children }) {
             setCurso(res.data);
             console.log("Cursos públicos: ", res.data);
         } catch (error) {
-            console.log(error);
+            console.error("Error al obtener cursos públicos:", error);
         }
     }
 
-    // crear cursos 
-
-    const createCursos = async(curso) => {
-        const res = await CreateCursosRequest(curso);
-        console.log(res);
+    // crear curso
+    const createCursos = async (cursoData) => {
+        try {
+            const res = await CreateCursosRequest(cursoData);
+            console.log("Curso creado:", res.data);
+            // Opcional: actualizar lista después de crear
+            await getCursos();
+        } catch (error) {
+            console.error("Error al crear curso:", error);
+        }
     }
+
+    // eliminar curso
+    const deleteCurso = async (id) => {
+        try {
+            const res = await deleteCursoRequest(id);
+            console.log(res.data);
+            // Si el backend responde con status 200 y mensaje de éxito
+            if (res.status === 200 && res.data.message === "Curso eliminado correctamente") {
+                setCurso(prev => ({
+                    ...prev,
+                    data: prev.data.filter(c => c.id !== id)
+                }));
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const updateCurso = async (id, data) => {
+        try {
+            const res = await updateCursoRequest(id, data);
+            console.log("Curso actualizado:", res.data);
+
+            // Actualizar lista localmente (opcional si no quieres llamar getCursos)
+            setCurso(prev => ({
+                ...prev,
+                data: prev.data.map(c => (c.id === id ? res.data : c))
+            }));
+
+            // O simplemente volver a cargar todos los cursos:
+            // await getCursos();
+
+        } catch (error) {
+            console.error("Error al actualizar curso:", error);
+        }
+    };
 
     return (
         <CursoContext.Provider
@@ -53,6 +93,8 @@ export function CursoProvider({ children }) {
                 getCursos,
                 getCursosPublic,
                 createCursos,
+                updateCurso,
+                deleteCurso,
                 curso
             }}
         >

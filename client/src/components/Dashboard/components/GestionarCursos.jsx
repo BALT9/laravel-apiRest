@@ -7,7 +7,9 @@ import CursoForm from './componentsAdmin/CursoForm';
 function GestionarCursos() {
     const [showForm, setShowForm] = useState(false);
 
-    const { getCursos, getCursosPublic, curso } = useCursos();
+    const [cursoEnEdicion, setCursoEnEdicion] = useState(null);
+
+    const { getCursos, getCursosPublic, curso, deleteCurso, updateCurso } = useCursos();
 
     useEffect(() => {
         getCursos();
@@ -27,8 +29,8 @@ function GestionarCursos() {
             </button>
 
             <div className={styles.cardsGrid}>
-                {curso?.data?.map((curso) => (
-                    <div key={curso.id} className={styles.card}>
+                {curso?.data?.map((curso , index) => (
+                    <div key={curso.id ?? index} className={styles.card}>
                         <img
                             src={curso.imagen || 'https://webandcrafts.com/_next/image?url=https%3A%2F%2Fadmin.wac.co%2Fuploads%2F10_Great_Sites_Built_with_Laravel_Framework_0e893c2354.jpg&w=4500&q=90'}
                             alt={curso.nombre}
@@ -38,14 +40,38 @@ function GestionarCursos() {
                         <p>{curso.descripcion}</p>
                         <span className={styles.duracion}>{curso.duracion}</span>
                         <div className={styles.cardActions}>
-                            <button className={styles.edit}>Editar</button>
-                            <button className={styles.delete}>Eliminar</button>
+                            <button
+                                className={styles.edit}
+                                onClick={() => {
+                                    setCursoEnEdicion(curso); // pasa el curso a editar
+                                    setShowForm(true);        // abre el formulario
+                                }}
+                            >
+                                Editar
+                            </button>
+                            <button className={styles.delete} onClick={() => deleteCurso(curso.id)}>Eliminar</button>
+
                         </div>
                     </div>
                 ))}
             </div>
-            {showForm && <CursoForm onClose={handleClose} />}
-            <pre>{JSON.stringify(curso, null, 2)}</pre>
+            {showForm && (
+                <CursoForm
+                    isOpen={showForm}
+                    onClose={() => {
+                        setShowForm(false);
+                        setCursoEnEdicion(null); // limpia el estado de edición
+                    }}
+                    onCursoCreado={() => {
+                        getCursos();       // recarga cursos
+                        setShowForm(false);
+                        setCursoEnEdicion(null);
+                    }}
+                    cursoEditar={cursoEnEdicion} // ⬅ importante
+                />
+            )}
+
+            {/* <pre>{JSON.stringify(curso, null, 2)}</pre> */}
         </div>
     );
 }

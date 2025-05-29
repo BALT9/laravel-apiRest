@@ -1,135 +1,208 @@
-// CursoCompletoForm.jsx
 import { useForm, useFieldArray } from 'react-hook-form';
 
-function CursoForm() {
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      lo_que_aprenderas: [""],
-      temario: [{ modulo: "", video: "" }],
-      requisitos: [""],
-      horarios: [{ dia: "", hora: "" }],
-      soporte: { tipo: "", canal: "" },
-    }
-  });
+import { useCursos } from '../../../../../context/CursoContext';
 
-  const { fields: aprenderas, append: addAprenderas, remove: removeAprenderas } = useFieldArray({
-    control,
-    name: "lo_que_aprenderas",
-  });
+import styles from './CursoForm.module.css';
+import { useEffect } from 'react';
 
-  const { fields: temario, append: addTemario, remove: removeTemario } = useFieldArray({
-    control,
-    name: "temario",
-  });
+function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
 
-  const { fields: requisitos, append: addRequisito, remove: removeRequisito } = useFieldArray({
-    control,
-    name: "requisitos",
-  });
+    const { createCursos, curso, updateCurso } = useCursos();
 
-  const { fields: horarios, append: addHorario, remove: removeHorario } = useFieldArray({
-    control,
-    name: "horarios",
-  });
+    const { register, handleSubmit, control, reset } = useForm({
+        defaultValues: {
+            lo_que_aprenderas: [""],
+            temario: [{ modulo: "", video: "" }],
+            requisitos: [""],
+            horarios: [{ dia: "", hora: "" }],
+            soporte: { tipo: "", canal: "" },
+        }
+    });
 
-  const onSubmit = (data) => {
-    console.log("📤 Datos enviados al backend:", data);
-  };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    useEffect(() => {
+        if (cursoEditar) {
+            reset(cursoEditar);
+        }
+    }, [cursoEditar, reset])
 
-      <h2>Formulario de Curso</h2>
+    const { fields: aprenderas, append: addAprenderas, remove: removeAprenderas } = useFieldArray({
+        control,
+        name: "lo_que_aprenderas",
+    });
 
-      <label>Nombre:</label>
-      <input {...register("nombre", { required: true })} />
+    const { fields: temario, append: addTemario, remove: removeTemario } = useFieldArray({
+        control,
+        name: "temario",
+    });
 
-      <label>Descripción:</label>
-      <textarea {...register("descripcion", { required: true })} />
+    const { fields: requisitos, append: addRequisito, remove: removeRequisito } = useFieldArray({
+        control,
+        name: "requisitos",
+    });
 
-      <label>Docente:</label>
-      <input {...register("docente", { required: true })} />
+    const { fields: horarios, append: addHorario, remove: removeHorario } = useFieldArray({
+        control,
+        name: "horarios",
+    });
 
-      <label>Fecha de inicio:</label>
-      <input type="date" {...register("fecha_inicio", { required: true })} />
+    const onSubmit = async (data) => {
+        try {
+            if (cursoEditar) {
+                // 👇 Aquí deberías tener una función updateCurso (aún falta crearla)
+                await updateCurso(cursoEditar.id, data);
+            } else {
+                await createCursos(data);
+            }
 
-      <label>Modalidad:</label>
-      <input {...register("modalidad", { required: true })} />
+            onCursoCreado?.(); // refresca lista y cierra modal
+        } catch (error) {
+            console.error("Error al guardar curso:", error);
+        }
+    };
 
-      <label>Duración:</label>
-      <input {...register("duracion", { required: true })} />
 
-      <label>Plataforma:</label>
-      <input {...register("plataforma", { required: true })} />
+    if (!isOpen) return null;
 
-      <label>Idioma:</label>
-      <input {...register("idioma", { required: true })} />
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <button className={styles.modalClose} onClick={onClose}>✖</button>
 
-      <label>Costo:</label>
-      <input {...register("costo", { required: true })} />
+                <form onSubmit={handleSubmit(onSubmit)} className={styles.formularioCurso}>
+                    {/* Información básica */}
+                    <div className={styles.fieldGroup}>
+                        <label>Nombre Curso:</label>
+                        <input {...register("nombre", { required: true })} />
+                    </div>
 
-      <label>
-        <input type="checkbox" {...register("certificado")} />
-        ¿Incluye certificado?
-      </label>
+                    <div className={styles.fieldGroup}>
+                        <label>Docente:</label>
+                        <input {...register("docente", { required: true })} />
+                    </div>
 
-      <label>
-        <input type="checkbox" {...register("cupos_limitados")} />
-        ¿Cupos limitados?
-      </label>
+                    <div className={styles.fieldGroup}>
+                        <label>Imagen del curso (URL):</label>
+                        <input
+                            type="text"
+                            placeholder="https://example.com/imagen.jpg"
+                            {...register("imagen")}
+                        />
+                    </div>
 
-      <h3>Lo que aprenderás</h3>
-      {aprenderas.map((item, index) => (
-        <div key={item.id}>
-          <input {...register(`lo_que_aprenderas.${index}`)} />
-          <button type="button" onClick={() => removeAprenderas(index)}>Eliminar</button>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Fecha de inicio:</label>
+                        <input type="date" {...register("fecha_inicio", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Modalidad:</label>
+                        <input {...register("modalidad", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Duración:</label>
+                        <input {...register("duracion", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Plataforma:</label>
+                        <input {...register("plataforma", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Idioma:</label>
+                        <input {...register("idioma", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>Costo:</label>
+                        <input {...register("costo", { required: true })} />
+                    </div>
+
+                    <div className={styles.fieldGroup}>
+                        <label>
+                            <input type="checkbox" {...register("certificado")} />
+                            ¿Incluye certificado?
+                        </label>
+                        <label>
+                            <input type="checkbox" {...register("cupos_limitados")} />
+                            ¿Cupos limitados?
+                        </label>
+                    </div>
+
+                    <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
+                        <label>Descripción:</label>
+                        <textarea {...register("descripcion", { required: true })} />
+                    </div>
+
+                    {/* Sección: Lo que aprenderás */}
+                    <div className={styles.sectionTitle}>Lo que aprenderás</div>
+                    {aprenderas.map((_, index) => (
+                        <div className={styles.fieldGroup} key={index}>
+                            <input {...register(`lo_que_aprenderas.${index}`)} />
+                            <button type="button" className={styles.removeButton} onClick={() => removeAprenderas(index)}>Eliminar</button>
+                        </div>
+                    ))}
+                    <div className={styles.fullWidth}>
+                        <button type="button" className={styles.addButton} onClick={() => addAprenderas("")}>Agregar</button>
+                    </div>
+
+                    {/* Sección: Temario */}
+                    <div className={styles.sectionTitle}>Temario</div>
+                    {temario.map((_, index) => (
+                        <div className={styles.fieldGroup} key={index}>
+                            <input placeholder="Módulo" {...register(`temario.${index}.modulo`)} />
+                            <input placeholder="Video URL" {...register(`temario.${index}.video`)} />
+                            <button type="button" className={styles.removeButton} onClick={() => removeTemario(index)}>Eliminar</button>
+                        </div>
+                    ))}
+                    <div className={styles.fullWidth}>
+                        <button type="button" className={styles.addButton} onClick={() => addTemario({ modulo: "", video: "" })}>Agregar</button>
+                    </div>
+
+                    {/* Sección: Requisitos */}
+                    <div className={styles.sectionTitle}>Requisitos</div>
+                    {requisitos.map((_, index) => (
+                        <div className={styles.fieldGroup} key={index}>
+                            <input {...register(`requisitos.${index}`)} />
+                            <button type="button" className={styles.removeButton} onClick={() => removeRequisito(index)}>Eliminar</button>
+                        </div>
+                    ))}
+                    <div className={styles.fullWidth}>
+                        <button type="button" className={styles.addButton} onClick={() => addRequisito("")}>Agregar</button>
+                    </div>
+
+                    {/* Sección: Horarios */}
+                    <div className={styles.sectionTitle}>Horarios</div>
+                    {horarios.map((_, index) => (
+                        <div className={styles.fieldGroup} key={index}>
+                            <input placeholder="Día" {...register(`horarios.${index}.dia`)} />
+                            <input placeholder="Hora" {...register(`horarios.${index}.hora`)} />
+                            <button type="button" className={styles.removeButton} onClick={() => removeHorario(index)}>Eliminar</button>
+                        </div>
+                    ))}
+                    <div className={styles.fullWidth}>
+                        <button type="button" className={styles.addButton} onClick={() => addHorario({ dia: "", hora: "" })}>Agregar</button>
+                    </div>
+
+                    {/* Sección: Soporte */}
+                    <div className={styles.sectionTitle}>Soporte</div>
+                    <div className={styles.fieldGroup}>
+                        <input placeholder="Tipo" {...register("soporte.tipo")} />
+                        <input placeholder="Canal" {...register("soporte.canal")} />
+                    </div>
+
+                    {/* Botones finales */}
+                    <div className={styles.buttonRow}>
+                        <button type="submit">Guardar</button>
+                        <button type="button" onClick={onClose}>Cancelar</button>
+                    </div>
+                </form>
+            </div>
         </div>
-      ))}
-      <button type="button" onClick={() => addAprenderas("")}>Agregar</button>
-
-      <h3>Temario</h3>
-      {temario.map((item, index) => (
-        <div key={item.id}>
-          <label>Módulo:</label>
-          <input {...register(`temario.${index}.modulo`)} />
-          <label>Video:</label>
-          <input {...register(`temario.${index}.video`)} />
-          <button type="button" onClick={() => removeTemario(index)}>Eliminar</button>
-        </div>
-      ))}
-      <button type="button" onClick={() => addTemario({ modulo: "", video: "" })}>Agregar</button>
-
-      <h3>Requisitos</h3>
-      {requisitos.map((item, index) => (
-        <div key={item.id}>
-          <input {...register(`requisitos.${index}`)} />
-          <button type="button" onClick={() => removeRequisito(index)}>Eliminar</button>
-        </div>
-      ))}
-      <button type="button" onClick={() => addRequisito("")}>Agregar</button>
-
-      <h3>Horarios</h3>
-      {horarios.map((item, index) => (
-        <div key={item.id}>
-          <label>Día:</label>
-          <input {...register(`horarios.${index}.dia`)} />
-          <label>Hora:</label>
-          <input {...register(`horarios.${index}.hora`)} />
-          <button type="button" onClick={() => removeHorario(index)}>Eliminar</button>
-        </div>
-      ))}
-      <button type="button" onClick={() => addHorario({ dia: "", hora: "" })}>Agregar</button>
-
-      <h3>Soporte</h3>
-      <label>Tipo:</label>
-      <input {...register("soporte.tipo")} />
-      <label>Canal:</label>
-      <input {...register("soporte.canal")} />
-
-      <br /><br />
-      <button type="submit">Enviar</button>
-    </form>
-  );
+    );
 }
 
 export default CursoForm;

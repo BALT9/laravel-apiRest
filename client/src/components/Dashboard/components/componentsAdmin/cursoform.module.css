@@ -1,0 +1,109 @@
+/* CursoForm.module.css */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 2rem;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  font-size: 1.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.formularioCurso {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem 2rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.sectionTitle {
+  grid-column: 1 / -1;
+  font-weight: bold;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.25rem;
+}
+
+input,
+textarea {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addButton {
+  background-color: #007bff;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+.removeButton {
+  margin-top: 0.5rem;
+  background-color: #dc3545;
+  color: white;
+  align-self: start;
+}
+
+.buttonRow {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+@media (max-height: 700px) {
+  .modalContent {
+    max-height: 95vh;
+    padding: 1rem;
+  }
+}

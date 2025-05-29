@@ -1,63 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useCursos } from '../../../../context/CursoContext';
 
 import styles from './cursosdisponibles.module.css';
 
 function CursosDisponibles() {
-
     const { getCursos, getCursosPublic, curso } = useCursos();
 
     useEffect(() => {
-        getCursos();
+        // getCursos();
         getCursosPublic();
-        console.log('hola di', curso)
+        console.log('Cursos cargados:', curso);
     }, []);
-
-    // Cursos simulados
-    const cursos = [
-        {
-            id: 1,
-            nombre: 'Curso de React',
-            descripcion: 'Aprende React desde cero',
-            duracion: '40 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=React',
-        },
-        {
-            id: 2,
-            nombre: 'Curso de JavaScript',
-            descripcion: 'Domina JS moderno',
-            duracion: '30 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=JavaScript',
-        },
-        {
-            id: 3,
-            nombre: 'Curso de Python',
-            descripcion: 'Automatización con Python',
-            duracion: '35 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=Python',
-        },
-        {
-            id: 4,
-            nombre: 'Curso de Python',
-            descripcion: 'Automatización con Python',
-            duracion: '35 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=Python',
-        },
-        {
-            id: 5,
-            nombre: 'Curso de Python',
-            descripcion: 'Automatización con Python',
-            duracion: '35 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=Python',
-        },
-        {
-            id: 6,
-            nombre: 'Curso de Python',
-            descripcion: 'Automatización con Python',
-            duracion: '35 horas',
-            imagen: 'https://via.placeholder.com/300x150?text=Python',
-        },
-    ];
 
     const handleInscribirse = (curso) => {
         alert(`Te has inscrito en: ${curso.nombre}`);
@@ -65,25 +18,31 @@ function CursosDisponibles() {
 
     return (
         <div className={styles.container}>
-            <pre>{JSON.stringify(curso, null, 2)}</pre>
             <h2 className={styles.heading}>Cursos Disponibles para Inscripción</h2>
-
             <div className={styles.cardsGrid}>
-                {cursos.map((curso) => (
-                    <div key={curso.id} className={styles.card}>
-                        <img src={curso.imagen} alt={curso.nombre} className={styles.image} />
-                        <h3>{curso.nombre}</h3>
-                        <p>{curso.descripcion}</p>
-                        <span className={styles.duracion}>{curso.duracion}</span>
+                {curso?.data?.map((cursoItem) => (
+                    <div key={cursoItem.id} className={styles.card}>
+                        <img
+                            src={
+                                cursoItem.imagen ||
+                                'https://via.placeholder.com/300x150?text=Sin+Imagen'
+                            }
+                            alt={cursoItem.nombre}
+                            className={styles.image}
+                        />
+                        <h3>{cursoItem.nombre}</h3>
+                        <p>{cursoItem.descripcion}</p>
+                        <span className={styles.duracion}>{cursoItem.duracion}</span>
                         <button
                             className={styles.inscribirse}
-                            onClick={() => handleInscribirse(curso)}
+                            onClick={() => handleInscribirse(cursoItem)}
                         >
                             Inscribirse
                         </button>
                     </div>
                 ))}
             </div>
+            {/* <pre>{JSON.stringify(curso, null, 2)}</pre> */}
         </div>
     );
 }

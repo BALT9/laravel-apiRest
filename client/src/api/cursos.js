@@ -20,5 +20,27 @@ export const CreateCursosRequest = (cursos) => {
     });
 };
 
+export const updateCursoRequest = (id, data) => {
+    const token = localStorage.getItem('access_token');
+    return axios.put(`/auth/cursos/${id}`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};
+
+
+export const deleteCursoRequest = (id) => {
+    const token = localStorage.getItem('access_token');
+    return axios.delete(`/auth/cursos/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+        }
+    });
+};
+
+
 
 export const getCursosRequestPublic = () => axios.get('/auth/cursospublicos');
