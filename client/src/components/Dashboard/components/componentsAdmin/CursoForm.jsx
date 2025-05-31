@@ -106,32 +106,6 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
                         <input {...register("duracion", { required: true })} />
                     </div>
 
-                    <div className={styles.fieldGroup}>
-                        <label>Plataforma:</label>
-                        <input {...register("plataforma", { required: true })} />
-                    </div>
-
-                    <div className={styles.fieldGroup}>
-                        <label>Idioma:</label>
-                        <input {...register("idioma", { required: true })} />
-                    </div>
-
-                    <div className={styles.fieldGroup}>
-                        <label>Costo:</label>
-                        <input {...register("costo", { required: true })} />
-                    </div>
-
-                    <div className={styles.fieldGroup}>
-                        <label>
-                            <input type="checkbox" {...register("certificado")} />
-                            ¿Incluye certificado?
-                        </label>
-                        <label>
-                            <input type="checkbox" {...register("cupos_limitados")} />
-                            ¿Cupos limitados?
-                        </label>
-                    </div>
-
                     <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
                         <label>Descripción:</label>
                         <textarea {...register("descripcion", { required: true })} />
@@ -185,13 +159,6 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
                     ))}
                     <div className={styles.fullWidth}>
                         <button type="button" className={styles.addButton} onClick={() => addHorario({ dia: "", hora: "" })}>Agregar</button>
-                    </div>
-
-                    {/* Sección: Soporte */}
-                    <div className={styles.sectionTitle}>Soporte</div>
-                    <div className={styles.fieldGroup}>
-                        <input placeholder="Tipo" {...register("soporte.tipo")} />
-                        <input placeholder="Canal" {...register("soporte.canal")} />
                     </div>
 
                     {/* Botones finales */}
