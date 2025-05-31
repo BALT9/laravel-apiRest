@@ -36,7 +36,7 @@ function Login() {
                         </div>
                         <label htmlFor="">Contraseña</label>
                         <div className={log.input_row}>
-                            <input type="password" {...register("contrasena", { required: true })} />
+                            <input type="password" placeholder="Escribe tu contraseña" {...register("contrasena", { required: true })} />
                         </div>
 
                         <button type="submit" className={log.btn} >Login</button>

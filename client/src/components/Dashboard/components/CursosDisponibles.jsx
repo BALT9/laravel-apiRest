@@ -19,7 +19,7 @@ function CursosDisponibles() {
                         <img
                             src={
                                 cursoItem.imagen ||
-                                'https://via.placeholder.com/300x150?text=Sin+Imagen'
+                                'https://wallpapercave.com/wp/wp11346423.jpg'
                             }
                             alt={cursoItem.nombre}
                             className={styles.image}
