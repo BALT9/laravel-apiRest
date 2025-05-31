@@ -16,7 +16,7 @@
 .modalContent {
   background: #fff;
   width: 90%;
-  max-width: 1000px;
+  max-width: 1200px;
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 10px;
@@ -58,17 +58,23 @@
   padding-bottom: 0.25rem;
 }
 
-input,
+.formularioCurso input,
 textarea {
   padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 1rem;
   margin-top: 0.25rem;
+  
 }
 
-textarea {
-  min-height: 80px;
+.formularioCurso input:focus, textarea:focus {
+  outline: none;
+  border: 1px solid var(--primary-color);
+}
+
+.formularioCurso textarea {
+  min-height: 60px;
   resize: vertical;
 }
 

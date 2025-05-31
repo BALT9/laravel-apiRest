@@ -22,9 +22,16 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
 
     useEffect(() => {
         if (cursoEditar) {
-            reset(cursoEditar);
+            const fechaFormateada = cursoEditar.fecha_inicio
+                ? cursoEditar.fecha_inicio.split("T")[0]
+                : "";
+
+            reset({
+                ...cursoEditar,
+                fecha_inicio: fechaFormateada,
+            });
         }
-    }, [cursoEditar, reset])
+    }, [cursoEditar, reset]);
 
     const { fields: aprenderas, append: addAprenderas, remove: removeAprenderas } = useFieldArray({
         control,

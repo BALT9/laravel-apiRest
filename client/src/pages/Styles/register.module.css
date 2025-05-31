@@ -13,6 +13,10 @@
     margin-inline: auto;
 }
 
+.container_content h1 {
+    margin: 0 5px;
+}
+
 .container_content h2 {
     margin-bottom: 1rem;
     font-size: 2.5rem;

@@ -36,17 +36,22 @@ export const AuthProvider = ({ children }) => {
         try {
             const res = await loginRequest(user);
             console.log("res", res);
-            console.log("res.data", res.data.usuario);
-            //Guarda el token en localStorage
+
+            // Guarda el token en localStorage
             localStorage.setItem("access_token", res.data.access_token);
 
             setUser(res.data);
             setIsAutenticated(true);
-            console.log("soy user");
+
+            return null; // No hubo error
         } catch (error) {
             console.log(error);
+
+            // Devuelve el mensaje al componente
+            return error.response?.data?.mensaje || "Error desconocido";
         }
-    }
+    };
+
 
     // logout
     const logout = async () => {

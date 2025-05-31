@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { useAuth } from "../../context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import log from './Styles/login.module.css';
@@ -11,16 +11,26 @@ function Login() {
 
     const { signin, isAutenticated } = useAuth();
 
+    const [errorLogin, setErrorLogin] = useState("");
+
     const navigate = useNavigate();
 
     useEffect(() => {
         if (isAutenticated) navigate("/dashboard");
     }, [isAutenticated])
 
-    const onSubmit = handleSubmit((data) => {
-        console.log("react hok form: ", data);
-        signin(data);
+    const onSubmit = handleSubmit(async (data) => {
+        const error = await signin(data);
+        if (error) {
+            setErrorLogin(error);
+
+            // Ocultar el error después de 3 segundos
+            setTimeout(() => {
+                setErrorLogin("");
+            }, 2000);
+        }
     });
+
 
     return (
         <>
@@ -30,6 +40,11 @@ function Login() {
                     <h3>Bienvenido de Vuelta!</h3>
                     <h1>Login</h1>
                     <form onSubmit={onSubmit}>
+                        {errorLogin && (
+                            <div className={log.error}>
+                                {errorLogin}
+                            </div>
+                        )}
                         <label htmlFor="">Correo</label>
                         <div className={log.input_row}>
                             <input type="email" placeholder="Escribe tu correo electronico" {...register("correo", { required: true })} />
