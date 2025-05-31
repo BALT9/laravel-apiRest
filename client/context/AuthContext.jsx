@@ -21,15 +21,22 @@ export const AuthProvider = ({ children }) => {
     const singup = async (user) => {
         try {
             const res = await registerRequest(user);
-            console.log("res", res);
-            console.log("res.data", res.data);
             localStorage.setItem("access_token", res.data.access_token);
             setUser(res.data);
             setIsAutenticated(true);
+            return null;
         } catch (error) {
-            console.log(error);
+            const errores = error.response?.data?.errores;
+
+            if (errores?.correo) return errores.correo[0];
+            if (errores?.contrasena) return errores.contrasena[0];
+            if (errores?.cpassword) return errores.cpassword[0];
+
+            return error.response?.data?.mensaje || "Error desconocido";
         }
-    }
+    };
+
+
 
     // login 
     const signin = async (user) => {

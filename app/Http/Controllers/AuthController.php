@@ -11,28 +11,34 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
     public function register(Request $request)
     {
-        // Validación de los datos
         $validator = Validator::make($request->all(), [
             'nombre' => 'required',
-            'correo' => 'required|email',
+            'correo' => 'required|email|unique:Estudiante,correo',
             'contrasena' => 'required|same:cpassword',
+            'cpassword' => 'required',
             'numero' => 'required',
             'pais' => 'required',
             'rol' => 'required|in:estudiante,admin'
+        ], [
+            'correo.unique' => 'El correo ya existe.',
+            'correo.required' => 'El correo es obligatorio.',
+            'contrasena.same' => 'Las contraseñas no coinciden.',
+            'contrasena.required' => 'La contraseña es obligatoria.',
+            'cpassword.required' => 'La confirmación de contraseña es obligatoria.'
         ]);
 
         if ($validator->fails()) {
-            $data = [
+            return response()->json([
                 'mensaje' => 'Error en la validación de datos',
                 'errores' => $validator->errors(),
                 'estado' => 400
-            ];
-            return response()->json($data, 400);
+            ], 400);
         }
 
-        // guardar
+        // Guardar el estudiante
         $estudiante = new Estudiante();
         $estudiante->nombre = $request->nombre;
         $estudiante->correo = $request->correo;
@@ -40,10 +46,8 @@ class AuthController extends Controller
         $estudiante->numero = $request->numero;
         $estudiante->pais = $request->pais;
         $estudiante->rol = $request->rol;
-
         $estudiante->save();
 
-        // Generar token
         $token = $estudiante->createToken('Token_Estudiante')->plainTextToken;
 
         return response()->json([
@@ -52,6 +56,7 @@ class AuthController extends Controller
             "usuario" => $estudiante
         ], 201);
     }
+
 
     public function login(Request $request)
     {
