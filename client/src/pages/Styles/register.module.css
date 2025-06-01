@@ -71,6 +71,17 @@
     color: var(--text-dark);
 }
 
+.contraseñas{
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.contra{
+    width: 45%;
+}
+
+
 .btn {
     max-width: fit-content;
     padding: 1rem 2rem;

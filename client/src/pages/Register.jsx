@@ -1,17 +1,18 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../context/AuthContext";
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css';
 
 import reg from './Styles/register.module.css';
 
 function Register() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, control } = useForm();
     const { singup, isAutenticated } = useAuth();
     const navigate = useNavigate();
 
-    // Estado para manejar mensaje de error
     const [errorMsg, setErrorMsg] = useState("");
 
     useEffect(() => {
@@ -19,6 +20,7 @@ function Register() {
     }, [isAutenticated]);
 
     const onSubmit = handleSubmit(async (data) => {
+        console.log(data)
         const error = await singup(data);
         if (error) {
             setErrorMsg(error);
@@ -32,13 +34,9 @@ function Register() {
                 <h2>Logotipo</h2>
                 <h1>Registro</h1>
 
-                {/* Mostrar mensaje de error si existe */}
                 {errorMsg && (
-                    <div className={reg.error}>
-                        {errorMsg}
-                    </div>
+                    <div className={reg.error}>{errorMsg}</div>
                 )}
-
 
                 <form onSubmit={onSubmit}>
                     <label>Nombre</label>
@@ -51,24 +49,38 @@ function Register() {
                         <input type="email" placeholder="Escribe tu correo" {...register("correo", { required: true })} />
                     </div>
 
-                    <label>Contraseña</label>
-                    <div className={reg.input_row}>
-                        <input type="password" placeholder="Escribe tu contraseña" {...register("contrasena", { required: true })} />
+                    <div className={reg.contraseñas}>
+                        <div className={reg.contra}>
+                            <label>Contraseña</label>
+                            <div className={reg.input_row}>
+                                <input type="password" placeholder="Escribe tu contraseña" {...register("contrasena", { required: true })} />
+                            </div>
+                        </div>
+                        <div className={reg.contra}>
+                            <label>Confirmar Contraseña</label>
+                            <div className={reg.input_row}>
+                                <input type="password" placeholder="Confirma tu contraseña" {...register("cpassword", { required: true })} />
+                            </div>
+                        </div>
                     </div>
 
-                    <label>Confirmar Contraseña</label>
-                    <div className={reg.input_row}>
-                        <input type="password" placeholder="Confirma tu contraseña" {...register("cpassword", { required: true })} />
-                    </div>
-
-                    <label>Pais</label>
-                    <div className={reg.input_row}>
-                        <input type="text" placeholder="Escribe tu pais" {...register("pais", { required: true })} />
-                    </div>
-
-                    <label>Numero</label>
-                    <div className={reg.input_row}>
-                        <input type="number" placeholder="Escribe tu numero" {...register("numero", { required: true })} />
+                    <label>Número telefónico</label>
+                    <div>
+                        <Controller
+                            name="telefono"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                                <PhoneInput
+                                    {...field}
+                                    country={'mx'}
+                                    placeholder="Selecciona tu país e ingresa el número"
+                                    enableSearch
+                                    inputClass={reg.phoneInput}
+                                    containerClass={reg.phoneContainer}
+                                />
+                            )}
+                        />
                     </div>
 
                     <label>Rol</label>
@@ -79,13 +91,13 @@ function Register() {
                     <button type="submit" className={reg.btn}>Register</button>
                 </form>
 
-                <h6>or continue with</h6>
+                <h6>o continuar con</h6>
                 <div className={reg.logins}>
                     <i className='bx bxl-google'></i>
                     <i className='bx bxl-google'></i>
                     <i className='bx bxl-google'></i>
                 </div>
-                <p>Ya tienes una cuenta? <Link to={'/Login'}>Login</Link></p>
+                <p>¿Ya tienes una cuenta? <Link to={'/Login'}>Login</Link></p>
             </div>
 
             <div className={reg.container_image}>
