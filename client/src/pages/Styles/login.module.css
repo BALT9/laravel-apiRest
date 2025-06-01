@@ -33,7 +33,7 @@
     font-size: 3rem;
     font-weight: 600;
     color: var(--text-dark);
-    margin: 5px 0;
+    margin: 5px;
 }
 
 .container_content form {

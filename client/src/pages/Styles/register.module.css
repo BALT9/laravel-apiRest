@@ -32,7 +32,7 @@
 
 .container_content h1 {
     margin-bottom: 1rem;
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--text-dark);
 }
@@ -48,7 +48,7 @@
 }
 
 .input_row {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
     width: 100%;
     padding: 1rem;
     display: flex;
@@ -71,16 +71,36 @@
     color: var(--text-dark);
 }
 
-.contraseñas{
+.contraseñas {
     display: flex;
     justify-content: space-between;
     gap: 5px;
 }
 
-.contra{
+.contra {
     width: 45%;
 }
 
+.phoneContainer {
+    width: 100%;
+}
+
+.phoneInput {
+    width: 100% !important;
+    border: none !important;
+    font-size: 1rem !important;
+    background-color: transparent !important;
+    color: var(--text-dark) !important;
+    padding-left: 50px !important;
+    /* espacio para la bandera */
+    height: 100% !important;
+    box-shadow: none !important;
+}
+
+.input_row :global(.flag-dropdown) {
+    background-color: transparent !important;
+    border: none !important;
+}
 
 .btn {
     max-width: fit-content;
@@ -165,6 +185,12 @@
     margin-bottom: 10px;
     border-radius: 5px;
     text-align: center;
+}
+
+.errorValidacion {
+    font-size: 0.75rem;
+    margin: 0;
+    font-weight: 400;
 }
 
 @media(width > 768px) {
