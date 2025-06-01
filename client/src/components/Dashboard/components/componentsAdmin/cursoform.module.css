@@ -107,6 +107,12 @@ button {
   margin-top: 2rem;
 }
 
+.errorText {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
 @media (max-height: 700px) {
   .modalContent {
     max-height: 95vh;

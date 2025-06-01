@@ -1,24 +1,27 @@
 import { useForm, useFieldArray } from 'react-hook-form';
-
 import { useCursos } from '../../../../../context/CursoContext';
-
 import styles from './CursoForm.module.css';
 import { useEffect } from 'react';
 
 function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
 
-    const { createCursos, curso, updateCurso } = useCursos();
+    const { createCursos, updateCurso } = useCursos();
 
-    const { register, handleSubmit, control, reset } = useForm({
+    const {
+        register,
+        handleSubmit,
+        control,
+        reset,
+        formState: { errors },
+    } = useForm({
         defaultValues: {
             lo_que_aprenderas: [""],
             temario: [{ modulo: "", video: "" }],
             requisitos: [""],
             horarios: [{ dia: "", hora: "" }],
             soporte: { tipo: "", canal: "" },
-        }
+        },
     });
-
 
     useEffect(() => {
         if (cursoEditar) {
@@ -56,18 +59,16 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
     const onSubmit = async (data) => {
         try {
             if (cursoEditar) {
-                // 👇 Aquí deberías tener una función updateCurso (aún falta crearla)
                 await updateCurso(cursoEditar.id, data);
             } else {
                 await createCursos(data);
             }
 
-            onCursoCreado?.(); // refresca lista y cierra modal
+            onCursoCreado?.();
         } catch (error) {
             console.error("Error al guardar curso:", error);
         }
     };
-
 
     if (!isOpen) return null;
 
@@ -77,15 +78,16 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
                 <button className={styles.modalClose} onClick={onClose}>✖</button>
 
                 <form onSubmit={handleSubmit(onSubmit)} className={styles.formularioCurso}>
-                    {/* Información básica */}
                     <div className={styles.fieldGroup}>
                         <label>Nombre Curso:</label>
-                        <input {...register("nombre", { required: true })} />
+                        <input {...register("nombre", { required: "Este campo es obligatorio" })} />
+                        {errors.nombre && <p className={styles.errorText}>{errors.nombre.message}</p>}
                     </div>
 
                     <div className={styles.fieldGroup}>
                         <label>Docente:</label>
-                        <input {...register("docente", { required: true })} />
+                        <input {...register("docente", { required: "El docente es obligatorio" })} />
+                        {errors.docente && <p className={styles.errorText}>{errors.docente.message}</p>}
                     </div>
 
                     <div className={styles.fieldGroup}>
@@ -93,31 +95,43 @@ function CursoForm({ isOpen, onClose, onCursoCreado, cursoEditar = null }) {
                         <input
                             type="text"
                             placeholder="https://example.com/imagen.jpg"
-                            {...register("imagen")}
+                            {...register("imagen", {
+                                pattern: {
+                                    value: /^(ftp|http|https):\/\/[^ "]+$/,
+                                    message: "Ingresa una URL válida",
+                                },
+                            })}
                         />
+                        {errors.imagen && <p className={styles.errorText}>{errors.imagen.message}</p>}
                     </div>
-
 
                     <div className={styles.fieldGroup}>
                         <label>Fecha de inicio:</label>
-                        <input type="date" {...register("fecha_inicio", { required: true })} />
+                        <input
+                            type="date"
+                            {...register("fecha_inicio", { required: "La fecha es obligatoria" })}
+                        />
+                        {errors.fecha_inicio && <p className={styles.errorText}>{errors.fecha_inicio.message}</p>}
                     </div>
 
                     <div className={styles.fieldGroup}>
                         <label>Modalidad:</label>
-                        <input {...register("modalidad", { required: true })} />
+                        <input {...register("modalidad", { required: "Este campo es obligatorio" })} />
+                        {errors.modalidad && <p className={styles.errorText}>{errors.modalidad.message}</p>}
                     </div>
 
                     <div className={styles.fieldGroup}>
                         <label>Duración:</label>
-                        <input {...register("duracion", { required: true })} />
+                        <input {...register("duracion", { required: "Este campo es obligatorio" })} />
+                        {errors.duracion && <p className={styles.errorText}>{errors.duracion.message}</p>}
                     </div>
 
                     <div className={`${styles.fieldGroup} ${styles.fullWidth}`}>
                         <label>Descripción:</label>
-                        <textarea {...register("descripcion", { required: true })} />
+                        <textarea {...register("descripcion")} />
                     </div>
 
+                    {/* Lo que aprenderás, temario, requisitos, etc. siguen sin cambios... */}
                     {/* Sección: Lo que aprenderás */}
                     <div className={styles.sectionTitle}>Lo que aprenderás</div>
                     {aprenderas.map((_, index) => (
